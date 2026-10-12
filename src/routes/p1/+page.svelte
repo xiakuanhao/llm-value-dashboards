@@ -6,8 +6,9 @@
 	import Staircase from '#lib/Staircase.svelte';
 	import HandMeDowns from '#lib/HandMeDowns.svelte';
 
-	// standalone: the single-page build (standalone/) has no other routes to link to.
-	let { standalone = false } = $props();
+	// root: where links start. '/' in the SvelteKit app; the static build in
+	// docs/ passes a relative path so the pages also work on GitHub Pages.
+	let { root = '/' } = $props();
 
 	let models = $state([]);
 	let reigns = $state([]);
@@ -50,7 +51,7 @@
 </script>
 
 <main>
-	{#if !standalone}<nav class="top"><a href="/">← prototypes</a><a href="/p2">Prototype 2 →</a></nav>{/if}
+	<nav class="top"><a href={root}>← prototypes</a><a href={`${root}p2/`}>Prototype 2 →</a></nav>
 	<h1>Prototype 1 · How fast do flagships get handed down?</h1>
 	<p class="note">
 		Question: <strong>when a new flagship ships, how long until a cheaper model is just as smart — and

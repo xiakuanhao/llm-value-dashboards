@@ -8,7 +8,10 @@ CS171 group project, dashboard-prototype milestone: two coordinated-view prototy
 npm install
 npm run dev      # http://localhost:5173  ->  /p1 and /p2
 npm run build
+npm run build:pages   # static single-file pages -> docs/ (GitHub Pages), commit docs/ after
 ```
+
+Live: https://xiakuanhao.github.io/llm-value-dashboards/ (`/p1/`, `/p2/`). Pages serves `main:/docs`. Each page takes a `root` prop ('/' in the app, relative in `standalone/*.js`) so nav links work in both.
 
 ## Stack and conventions
 
@@ -18,7 +21,7 @@ npm run build
 
 ## Data
 
-`static/llm_models.json` is exported from `../llm-sketchbook/lib/data.js` (calibrated seed set, 453 models, 2023–2026; ids de-duplicated on export). Loaded by `loadLLM()` in `src/lib/data.js`, which also holds the shared rules: `isHandMeDown` (later, ≥ intelligence, cheaper) and `monthlyCost` (80% input / 20% output tokens).
+`src/lib/llm_models.json` is exported from `../llm-sketchbook/lib/data.js` (calibrated seed set, 453 models, 2023–2026; ids de-duplicated on export; bundled, not fetched). Loaded by `loadLLM()` in `src/lib/data.js`, which also holds the shared rules: `isHandMeDown` (later, ≥ intelligence, cheaper) and `monthlyCost` (80% input / 20% output tokens).
 
 ## Coordination rules
 

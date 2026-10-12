@@ -5,6 +5,10 @@
 	import SpeedPrice from '#lib/SpeedPrice.svelte';
 	import CostWall from '#lib/CostWall.svelte';
 
+	// root: where links start. '/' in the SvelteKit app; the static build in
+	// docs/ passes a relative path so the pages also work on GitHub Pages.
+	let { root = '/' } = $props();
+
 	let models = $state([]);
 
 	// SHARED FILTERS (remove from BOTH views). Owner: the control row.
@@ -53,7 +57,7 @@
 </script>
 
 <main>
-	<nav class="top"><a href="/">← prototypes</a><a href="/p1">← Prototype 1</a></nav>
+	<nav class="top"><a href={root}>← prototypes</a><a href={`${root}p1/`}>← Prototype 1</a></nav>
 	<h1>Prototype 2 · Which model should I actually pay for?</h1>
 	<p class="note">
 		Question: <strong>for my quality bar and my monthly usage, which models are fast enough and what

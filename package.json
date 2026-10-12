@@ -8,7 +8,7 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
-		"build:p1": "vite build -c vite.standalone.config.js && python3 scripts/inline.py"
+		"build:pages": "PAGE=index vite build -c vite.standalone.config.js && PAGE=p1 vite build -c vite.standalone.config.js && PAGE=p2 vite build -c vite.standalone.config.js && python3 scripts/inline.py"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^8.0.0",

@@ -1,33 +1,36 @@
 #!/usr/bin/env python3
-"""Fold dist-standalone/ into one self-contained page: prototype-1.html,
-plus docs/index.html (the same page as a full document, for GitHub Pages).
+"""Fold each dist-standalone/<page>/ build into one self-contained HTML file.
 
-The output is a page fragment (title, style, app root, script) with no
-doctype/html/head/body wrapper, ready to publish as an Artifact or to open
-directly in a browser.
+    docs/index.html      landing page
+    docs/p1/index.html   Prototype 1
+    docs/p2/index.html   Prototype 2
+
+docs/ is served by GitHub Pages. Also writes prototype-1.html, a fragment
+(no doctype/html/head/body) of Prototype 1 for publishing as an Artifact.
 """
 import pathlib, re
 
 root = pathlib.Path(__file__).resolve().parent.parent
-dist = root / 'dist-standalone'
-html = (dist / 'index.html').read_text()
+DEST = {'index': 'docs/index.html', 'p1': 'docs/p1/index.html', 'p2': 'docs/p2/index.html'}
 
-title = re.search(r'<title>.*?</title>', html).group(0)
-css = ''.join((dist / p).read_text() for p in re.findall(r'<link rel="stylesheet"[^>]*href="\./([^"]+)"', html))
-js = ''.join((dist / p).read_text() for p in re.findall(r'<script type="module"[^>]*src="\./([^"]+)"', html))
-js = js.replace('</script', '<\\/script')
+for page, dest in DEST.items():
+    dist = root / 'dist-standalone' / page
+    html = (dist / f'{page}.html').read_text()
+    title = re.search(r'<title>.*?</title>', html).group(0)
+    css = ''.join((dist / p).read_text() for p in re.findall(r'<link rel="stylesheet"[^>]*href="\./([^"]+)"', html))
+    js = ''.join((dist / p).read_text() for p in re.findall(r'<script type="module"[^>]*src="\./([^"]+)"', html))
+    js = js.replace('</script', '<\\/script')
 
-out = root / 'prototype-1.html'
-out.write_text(f'{title}\n<style>\n{css}\n</style>\n<div id="app"></div>\n<script type="module">\n{js}\n</script>\n')
-print(out, f'{out.stat().st_size / 1024:.0f} KB')
-
-# Full HTML document for GitHub Pages (served from docs/).
-page = root / 'docs' / 'index.html'
-page.parent.mkdir(exist_ok=True)
-page.write_text(
-    '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8" />\n'
-    '<meta name="viewport" content="width=device-width, initial-scale=1" />\n'
-    f'{title}\n<style>\n{css}\n</style>\n</head>\n<body>\n<div id="app"></div>\n'
-    f'<script type="module">\n{js}\n</script>\n</body>\n</html>\n'
-)
-print(page)
+    out = root / dest
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(
+        '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8" />\n'
+        '<meta name="viewport" content="width=device-width, initial-scale=1" />\n'
+        f'{title}\n<style>\n{css}\n</style>\n</head>\n<body>\n<div id="app"></div>\n'
+        f'<script type="module">\n{js}\n</script>\n</body>\n</html>\n'
+    )
+    print(out.relative_to(root), f'{out.stat().st_size / 1024:.0f} KB')
+    if page == 'p1':
+        (root / 'prototype-1.html').write_text(
+            f'{title}\n<style>\n{css}\n</style>\n<div id="app"></div>\n<script type="module">\n{js}\n</script>\n'
+        )
