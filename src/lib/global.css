@@ -1,0 +1,68 @@
+:root {
+    --surface: #fcfcfb;
+    --page: #f9f9f7;
+    --ink: #0b0b0b;
+    --ink-2: #52514e;
+    --muted: #898781;
+    --grid: #e1e0d9;
+    --axis: #c3c2b7;
+    --accent: #2a78d6;
+    --flag: #eb6834;
+    --dim: #c3c2b7;
+    --btn: #ffffff;
+    /* Light only, by choice: the intelligence ramp reads darker = smarter,
+       which a dark surface would reverse. */
+    color-scheme: light;
+  }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  main {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-block: 28px 48px;
+    padding-inline: 20px;
+  }
+  h1 { font-size: 24px; margin: 0 0 6px; text-wrap: balance; }
+  h2 { font-size: 16px; margin: 0 0 4px; }
+  .note { margin: 0 0 18px; max-width: 80ch; color: var(--ink-2); font-size: 14px; }
+  .hint { margin: 0 0 6px; font-size: 13px; color: var(--ink-2); min-height: 1.3em; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--grid);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .explain {
+    margin: 8px 0 0;
+    padding-left: 10px;
+    border-left: 3px solid var(--accent);
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+  .explain.link { border-left-style: dashed; border-left-color: var(--axis); }
+  svg { display: block; max-width: 100%; height: auto; overflow: visible; }
+  .tick text { font-size: 11px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+  .tick line, .domain { stroke: var(--axis); }
+  .grid .tick line { stroke: var(--grid); }
+  .grid .domain { display: none; }
+  .axis-label { font-size: 12px; font-weight: 600; fill: var(--ink-2); }
+  .selection { fill: rgb(42 120 214 / 0.12); stroke: var(--accent); }
+  button {
+    font: inherit; font-size: 13px; padding: 4px 12px;
+    border: 1px solid var(--axis); border-radius: 6px; background: var(--btn); color: var(--ink); cursor: pointer;
+  }
+  button:disabled { opacity: 0.5; cursor: default; }
+  .tip {
+    position: fixed; pointer-events: none; z-index: 10;
+    background: var(--surface); border: 1px solid var(--axis); border-radius: 6px;
+    padding: 6px 9px; font-size: 12px; color: var(--ink); box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
+    line-height: 1.45;
+  }
+  .tip b { font-size: 13px; }
+  .tip span { color: var(--ink-2); }
+  nav.top { font-size: 13px; margin-bottom: 14px; }
+  nav.top a { color: var(--accent); margin-right: 14px; }
